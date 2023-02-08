@@ -4,34 +4,28 @@ from datetime import timedelta, datetime
 from airflow import DAG
 
 # Operators; we need this to operate!
-from airflow.operators.dummy_operator import DummyOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago # handy scheduling tool
+from airflow.utils.dates import days_ago
 
 
 def print_date():
     """A very simple python function to call"""
     print(datetime.now())
 
-# We can pass in DAG arguments using a default args dict. All these could be passed directly to the DAG as well.
-default_args = {
-    'start_date': days_ago(2), # The start date for DAG running. This function allows us to set the start date to two days ago
-    'schedule_interval': timedelta(days=1), # How often our DAG will run. After the start_date, airflow waits for the schedule_interval to pass then triggers the DAG run
-    'retries': 1, # How many times to retry in case of failure
-    'retry_delay': timedelta(minutes=5), # How long to wait before retrying
-}
 
 # instantiate a DAG!
 with DAG(
-    'hello', # a unique name for our DAG
-    description='A simple DAG to print "Hello World"', # a description of our DAG
-    default_args=default_args, # pass in the default args.
+    dag_id='hello',                         # a unique name for our DAG
+    description='Hello World DAG',          # a description of our DAG
+    start_date=days_ago(2),                 # when to start running this DAG
+    schedule_interval=timedelta(days=1),    # how often to run this DAG
 ) as dag:
     
     # create simple tasks:
-    dummy_task = DummyOperator(
-        task_id='dummy'
+    dummy_task = EmptyOperator(
+        task_id='start'
     )
 
     hello_task = BashOperator(
