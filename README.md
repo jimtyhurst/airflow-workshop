@@ -201,11 +201,11 @@ with DAG(
 ```
 Once this file is in our `dags/` directory, it will appear in our DAGs list:
 
-<img src="imgs/airflow-ui-02.png" alt="hello dag list" width="600" />
+<img src="imgs/airflow-ui-02.png" alt="hello dag list" width="800" />
 
 and if we click on our DAG, we can see the simple structure in the Graph view:
 
-<img src="imgs/airflow-ui-03.png" alt="hello dag graph view" width="600" />
+<img src="imgs/airflow-ui-03.png" alt="hello dag graph view" width="800" />
 
 Let's take a closer look at what is in our `hello.py` to learn about how we define a DAG.
 
@@ -292,5 +292,5 @@ Exercise - Morning Routine DAG
 In the `dags` folder, there's a partly-written DAG called `02_morning.py` that represents a morning routine: an alarm rings, it's snoozed, it rings again, teeth get brushed while the bread is toasting, and once the toast is ready it can get buttered, like so:
 
 
-<img src="img/morning_routine.png" alt="mock dag for morning.py"/>
+<img src="imgs/airflow-ui-04.png" alt="mock dag for morning.py" width="600" />
 
