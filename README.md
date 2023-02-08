@@ -87,16 +87,12 @@ We will use Astr CLI to initialize a local Airflow cluster on Docker. Please ens
 Start Airflow via Astro CLI
 
 ```bash
-cd airflow-workshop
-
-astro dev start
+astro dev init
 ```
 
 **NOTE:** You will get a warning regarding the folder not being empty. Press 'Y' to continue.
 
-This command starts a new Astronomer (Airflow) project and starts a series of docker containers running Airflow. Please allow this command to run for a few minutes.
-
-While this command finishes setting up Airflow, let's review the project content created:
+Let's review the project content created:
 
 - `dags`: This folder contains the Python files for your Airflow DAGs (_pipelines_). This workshop seeds this folder with some pre-built DAGs.
 - `Dockerfile`: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. 
@@ -106,7 +102,17 @@ While this command finishes setting up Airflow, let's review the project content
 - `plugins`: Add custom or community plugins for your project to this file.
 - `airflow_settings.yaml`: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
 
-This command also starts a series of Airflow docker containers:
+Now, let's start Airflow:
+
+```bash
+astr dev start
+```
+
+This command starts a new Astronomer (Airflow) project and starts a series of docker containers running Airflow. 
+
+**NOTE:** Please allow this command to run for a few minutes.
+
+Let's review the Airflow architecture while this command finishes setting up Airflow:
 
 ![Airflow Diagram](imgs/airflow-arch-diag-basic.png)
 
@@ -117,7 +123,9 @@ This command also starts a series of Airflow docker containers:
 
 <br>
 
-Open a browser and navigate to Airflow UI: []()
+Open a browser and navigate to Airflow UI: [http://localhost:8080](http://localhost:8080/home)
+
+![Airflow UI](imgs/airflow-ui-01.png)
 
 
 

@@ -21,6 +21,8 @@ with DAG(
     description='Hello World DAG',          # a description of our DAG
     start_date=days_ago(2),                 # when to start running this DAG
     schedule_interval=timedelta(days=1),    # how often to run this DAG
+    catchup=False,                          # do NOT run previous unscheduled tasks
+    is_paused_upon_creation=True,           # paused by default
 ) as dag:
     
     # create simple tasks:
@@ -39,4 +41,4 @@ with DAG(
     )
 
     # set the task order
-    hello_task >> [date_task, dummy_task]
+    dummy_task >> hello_task >> date_task

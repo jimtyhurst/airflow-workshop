@@ -19,17 +19,14 @@ def butter_toast():
     """A very simple python function to call"""
     print(f"calling butter_toast function")
 
-default_args = {
-    'start_date': days_ago(2), 
-    'schedule_interval': timedelta(days=1), 
-    'retries': 1, 
-    'retry_delay': timedelta(minutes=5), 
-}
 
 with DAG(
-    'morning',
+    dag_id='morning',
     description='A simple DAG for our morning routine',
-    default_args=default_args, 
+    start_date=days_ago(2),                 # when to start running this DAG
+    schedule_interval=timedelta(days=1),    # how often to run this DAG
+    catchup=False,                          # do NOT run previous unscheduled tasks
+    is_paused_upon_creation=True,           # paused by default
 ) as dag:
 
     alarm_task = BashOperator(
