@@ -21,11 +21,11 @@ def butter_toast():
 
 
 with DAG(
-    dag_id='morning',
+    dag_id='02_morning',
     description='A simple DAG for our morning routine',
     start_date=days_ago(2),                 # when to start running this DAG
     schedule_interval=timedelta(days=1),    # how often to run this DAG
-    catchup=False,                          # do NOT run previous unscheduled tasks
+    catchup=False,                          # do NOT catch up on previously skipped tasks
     is_paused_upon_creation=True,           # paused by default
 ) as dag:
 

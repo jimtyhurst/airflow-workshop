@@ -1,33 +1,41 @@
 from datetime import timedelta, datetime
+import random
 
-from airflow import DAG
-
+from airflow.decorators import dag, task
 from airflow.operators.bash import BashOperator
-from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago 
 
 
+# **** DEFINING DAGS USING DECORATORS ****
+
+# task decorator creates a PythonOperator
+@task
 def brush_teeth():
-    """A very simple python function to call"""
+    """Brush your teeth"""
     print(f"calling brush_teeth function")
 
+@task
 def toast_bread():
-    """A very simple python function to call"""
-    print(f"calling toast_bread function")
-
-def butter_toast():
-    """A very simple python function to call"""
-    print(f"calling butter_toast function")
+    """Toast bread"""
+    num_of_toast = random.randint(2, 5)
+    print(f"toasting {num_of_toast} pieces of bread")
+    return num_of_toast
 
 
-with DAG(
-    dag_id='morning',
+@task
+def butter_toast(num_toast: int = 2):
+    """Butter up that bread"""
+    print(f"buttering up {num_toast} pieces of bread")
+
+
+# defining the DAG via @dag decorator
+@dag(
+    dag_id='better_morning',
     description='A simple DAG for our morning routine',
-    start_date=days_ago(2),                 # when to start running this DAG
-    schedule_interval=timedelta(days=1),    # how often to run this DAG
-    catchup=False,                          # do NOT run previous unscheduled tasks
+    start_date=datetime.utcnow(),           # when to start running this DAG
     is_paused_upon_creation=True,           # paused by default
-) as dag:
+)
+def better_morning():
+    """Morning routine DAG with decorators"""
 
     alarm_task = BashOperator(
         task_id='alarm',
@@ -36,7 +44,7 @@ with DAG(
 
     snooze_task = BashOperator(
         task_id='snooze',
-        bash_command='echo "snoozing" && sleep 4',
+        bash_command='echo "snoozing" && sleep 3',
     )
 
     alarm_task2 = BashOperator(
@@ -44,8 +52,15 @@ with DAG(
         bash_command='echo "RIIIINGGG" ',
     )
 
-    # Define the tasks for brushing teeth, toasting bread, and buttering toast here
-    # They'll be PythonOperators:
+    brush_task = brush_teeth()
+    toast_task = toast_bread()
+    butter_task = butter_toast(toast_task)
+
 
     # Set the task order here:
-    
+    alarm_task >> snooze_task >> alarm_task2 >> brush_task >> toast_task >> butter_task
+
+
+
+# create the dag
+dag = better_morning()

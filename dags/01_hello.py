@@ -7,7 +7,6 @@ from airflow import DAG
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago
 
 
 def print_date():
@@ -17,11 +16,11 @@ def print_date():
 
 # instantiate a DAG!
 with DAG(
-    dag_id='hello',                         # a unique name for our DAG
+    dag_id='01_hello',                      # a unique name for our DAG
     description='Hello World DAG',          # a description of our DAG
-    start_date=days_ago(2),                 # when to start running this DAG
+    start_date=datetime.utcnow(),           # when to start running this DAG
     schedule_interval=timedelta(days=1),    # how often to run this DAG
-    catchup=False,                          # do NOT run previous unscheduled tasks
+    catchup=False,                          # do NOT catch up on previously skipped tasks
     is_paused_upon_creation=True,           # paused by default
 ) as dag:
     
