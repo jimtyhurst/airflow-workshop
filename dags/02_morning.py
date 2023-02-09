@@ -46,6 +46,14 @@ with DAG(
 
     # Define the tasks for brushing teeth, toasting bread, and buttering toast here
     # They'll be PythonOperators:
+    brush_task = brush_teeth()
+    toast_task = toast_bread()
+    butter_task = butter_toast()
 
     # Set the task order here:
-    
+    alarm_task >> snooze_task >> alarm_task2 >> [brush_task, toast_task]
+    brush_task >> butter_task
+    toast_task >> butter_task
+
+# create the dag
+#dag = morning()

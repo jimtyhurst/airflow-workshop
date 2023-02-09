@@ -105,7 +105,7 @@ Let's review the project content created:
 Now, let's start Airflow:
 
 ```bash
-astr dev start
+astro dev start
 ```
 
 This command starts a new Astronomer (Airflow) project and starts a series of docker containers running Airflow. 
